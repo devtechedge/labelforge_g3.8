@@ -29,6 +29,13 @@ The hosted app runs in demo mode:
 settings cannot silently drift to a static-only build. If the project is
 ever recreated, re-apply this file.
 
+Git integration is connected with `main` as the production branch, so every
+push to `main` builds and promotes a production deployment automatically.
+Pull requests get preview deployments. Keep `gitProviderOptions.createDeployments`
+enabled in the project settings; commits it was observed disabled, pushes
+stopped creating deployments (the flag can be restored with a project PATCH:
+`{"gitProviderOptions":{"createDeployments":"enabled"}}`).
+
 ## Security notes
 
 - Vercel Authentication (SSO protection) must stay disabled for the public
