@@ -1,6 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeScript } from './theme-script';
+
+export const viewport: Viewport = {
+  themeColor: '#fbfbfa',
+};
 
 export const metadata: Metadata = {
   title: 'LabelForge - Collaborative Data Annotation Workbench',
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.svg',
   },
-  themeColor: '#fbfbfa',
   openGraph: {
     title: 'LabelForge - Collaborative Data Annotation Workbench',
     description: 'Auditable human-in-the-loop collaborative data annotation workbench with versioned schemas, review, adjudication, and reproducible releases.',
