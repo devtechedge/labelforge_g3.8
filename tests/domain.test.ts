@@ -132,3 +132,47 @@ test('Canonical JSONL export is deterministic and produces consistent checksum',
   assert.equal(export1.checksumSha256, export2.checksumSha256);
   assert.ok(export1.content.includes('{"sentiment":"neg"}'));
 });
+
+test('CSV parser strips BOM and handles CRLF line endings', () => {
+  const csv = `\uFEFFid,text\r\n1,a\r\n2,b\r\n`;
+  const parsed = parseCSV(csv);
+  assert.equal(parsed.length, 3);
+  assert.equal(parsed[0][0], 'id');
+  assert.equal(parsed[2][1], 'b');
+});
+
+test('JSONL validator rejects array lines as invalid objects', () => {
+  const jsonl = `{"id":"a","text":"ok"}\n[1,2,3]\n{"id":"b","text":"ok2"}`;
+  const result = validateAndPreviewJSONL(jsonl);
+  assert.equal(result.validRows, 2);
+  assert.equal(result.invalidRows, 1);
+  assert.ok(result.errors.some((e) => e.code === 'INVALID_OBJECT'));
+});
+
+test('Cohen Kappa reports degenerate distribution when all raters agree', () => {
+  const pairs = [
+    { rater1: 'POS', rater2: 'POS' },
+    { rater1: 'POS', rater2: 'POS' },
+    { rater1: 'POS', rater2: 'POS' },
+    { rater1: 'POS', rater2: 'POS' },
+    { rater1: 'POS', rater2: 'POS' },
+  ];
+  const res = calculateCohensKappa(pairs);
+  assert.equal(res.status, 'degenerate_distribution');
+  assert.equal(res.kappa, 1.0);
+});
+
+test('Text span IoU treats empty span pairs as perfect agreement', () => {
+  const res = calculateTextSpanIoU([{ rater1: [], rater2: [] }]);
+  assert.equal(res.status, 'valid');
+  assert.equal(res.averageIoU, 1.0);
+  assert.equal(res.exactMatchRate, 1.0);
+});
+
+test('CSV formula sanitization also guards tab and carriage return triggers', () => {
+  assert.equal(sanitizeCSVCell('\tSUM(A1:A10)'), "'\tSUM(A1:A10)");
+  assert.equal(sanitizeCSVCell('-2+3'), "'-2+3");
+  const cr = sanitizeCSVCell('\rHYPERLINK("x")');
+  assert.ok(cr.startsWith('"\''));
+  assert.ok(!cr.startsWith('\r'));
+});
