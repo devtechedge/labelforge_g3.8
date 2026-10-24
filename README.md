@@ -5,7 +5,11 @@ trustworthy labeled datasets: versioned schemas, optimistic concurrency,
 inter-annotator agreement metrics, dispute adjudication, and SHA-256 verified
 releases.
 
-[Live Demo](https://labelforge-iota.vercel.app) · [License](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-7c3aed)](https://labelforge-iota.vercel.app)
+[![CI](https://img.shields.io/github/actions/workflow/status/devtechedge/labelforge_g3.8/ci.yml?branch=main&label=CI)](https://github.com/devtechedge/labelforge_g3.8/actions)
+[![Next.js](https://img.shields.io/badge/Next.js%2015-black?logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 ## Live Demo
 
@@ -73,6 +77,7 @@ it in `data/labelforge.db` so your local changes persist.
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript type checking |
 | `npm test` | Run the domain test suite |
+| `npm run test:e2e` | Run Playwright smoke tests (local: `npx playwright install chromium` first) |
 
 ## Project structure
 
@@ -101,6 +106,19 @@ Primary surfaces: `workspaces`, `projects`, `tasks`, `annotations`, `releases`,
 ![Workspace](docs/screenshots/02-workspace.png)
 ![Annotation workbench](docs/screenshots/03-annotate.png)
 ![Quality metrics](docs/screenshots/04-quality.png)
+
+## Deployment
+
+The demo runs on Vercel with a git-connected project. See
+[DEPLOYMENT.md](DEPLOYMENT.md) for the hosting wiring, the ephemeral demo
+database behavior, and verification steps.
+
+## Try the workflow
+
+Open the [live demo](https://labelforge-iota.vercel.app), switch personas from
+the top-right corner, and walk the full loop: annotate a task, submit it,
+review a submission, open a dispute, adjudicate it, and publish a release with
+its SHA-256 manifest. The light/dark theme toggle also lives in the header.
 
 ## Security
 
