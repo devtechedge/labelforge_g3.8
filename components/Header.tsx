@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Check, ChevronDown, Shield, User as UserIcon, Building, Layers } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function Header({
   workspaceId = 'ws_core',
@@ -82,6 +83,8 @@ export function Header({
           >
             All Workspaces
           </Link>
+
+          <ThemeToggle />
 
           {/* Persona Switcher Dropdown */}
           <div className="relative">
