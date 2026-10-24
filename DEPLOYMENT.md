@@ -29,12 +29,19 @@ The hosted app runs in demo mode:
 settings cannot silently drift to a static-only build. If the project is
 ever recreated, re-apply this file.
 
-Git integration is connected with `main` as the production branch, so every
-push to `main` builds and promotes a production deployment automatically.
-Pull requests get preview deployments. Keep `gitProviderOptions.createDeployments`
-enabled in the project settings; commits it was observed disabled, pushes
-stopped creating deployments (the flag can be restored with a project PATCH:
-`{"gitProviderOptions":{"createDeployments":"enabled"}}`).
+The Vercel project is linked to this GitHub repo with `main` configured as
+the production branch (verified in project settings via API). Merging a pull
+request or pushing to `main` triggers a production deployment automatically;
+pull requests get preview deployments.
+
+Two limitations observed on the Hobby plan:
+
+- Vercel's free tier caps deployment creations at 100 per day
+  (`api-deployments-free-per-day`). When the cap is hit, both manual
+  `vercel --prod` uploads and git-triggered deploys are rejected until it
+  resets. Re-run `vercel --prod` the next day if a push did not promote.
+- Keep `gitProviderOptions.createDeployments` set to `enabled` (restore via
+  project PATCH: `{"gitProviderOptions":{"createDeployments":"enabled"}}`).
 
 ## Security notes
 
