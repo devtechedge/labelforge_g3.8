@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+build/
+
+# misc
+.DS_Store
+*.pem
+*.log
+
+# environment
+.env*
+!.env.example
+
+# coverage / test artifacts
+coverage/
+playwright-report/
+test-results/
+
+# typescript
+*.tsbuildinfo
+
+# local data (SQLite)
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.db-journal
