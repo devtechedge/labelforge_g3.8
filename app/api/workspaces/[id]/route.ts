@@ -53,12 +53,12 @@ export async function GET(
     .prepare(`
       SELECT
         COUNT(*) as total_tasks,
-        SUM(CASE WHEN status = 'UNASSIGNED' THEN 1 ELSE 0 END) as unassigned,
-        SUM(CASE WHEN status IN ('ASSIGNED', 'IN_PROGRESS') THEN 1 ELSE 0 END) as in_progress,
-        SUM(CASE WHEN status IN ('SUBMITTED', 'IN_REVIEW') THEN 1 ELSE 0 END) as in_review,
-        SUM(CASE WHEN status = 'DISPUTED' THEN 1 ELSE 0 END) as disputed,
-        SUM(CASE WHEN status = 'RETURNED_FOR_CORRECTION' THEN 1 ELSE 0 END) as returned,
-        SUM(CASE WHEN status = 'ACCEPTED' THEN 1 ELSE 0 END) as accepted
+        SUM(CASE WHEN t.status = 'UNASSIGNED' THEN 1 ELSE 0 END) as unassigned,
+        SUM(CASE WHEN t.status IN ('ASSIGNED', 'IN_PROGRESS') THEN 1 ELSE 0 END) as in_progress,
+        SUM(CASE WHEN t.status IN ('SUBMITTED', 'IN_REVIEW') THEN 1 ELSE 0 END) as in_review,
+        SUM(CASE WHEN t.status = 'DISPUTED' THEN 1 ELSE 0 END) as disputed,
+        SUM(CASE WHEN t.status = 'RETURNED_FOR_CORRECTION' THEN 1 ELSE 0 END) as returned,
+        SUM(CASE WHEN t.status = 'ACCEPTED' THEN 1 ELSE 0 END) as accepted
       FROM annotation_tasks t
       JOIN projects p ON t.project_id = p.id
       WHERE p.workspace_id = ?
